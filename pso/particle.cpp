@@ -9,7 +9,7 @@ Particle::Particle(const Point &p, const Point &v)
 
 std::string Particle::str()
 {
-    std::stringstream stream;
+    std::ostringstream stream;
     stream << "Particle{" << position.str() << "}";
     return stream.str();
 }

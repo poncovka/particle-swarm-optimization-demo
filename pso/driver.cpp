@@ -22,7 +22,7 @@ Point Driver::getBestPosition() {
 
 void Driver::addParticle(const Point& p) {
     optimization.addParticle(p);
-    emit updated();
+    emit changedParticles();
 }
 
 void Driver::generateParticles() {
@@ -31,12 +31,16 @@ void Driver::generateParticles() {
 
 void Driver::removeParticles() {
     optimization.removeParticles();
-    emit updated();
+    emit changedParticles();
+}
+
+void Driver::selectParticle(Particle *particle) {
+    emit changedSelected(particle);
 }
 
 void Driver::doStep() {
     optimization.moveParticleSwarm();
-    emit updated();
+    emit changedParticles();
 }
 
 void Driver::runAnimation() {

@@ -8,16 +8,21 @@
 class TabParticle : public QWidget
 {
     Q_OBJECT
+
+protected:
+    Particle *particle;
+
 public:
     explicit TabParticle(QWidget *parent = 0);
 
 signals:
 
 public slots:
-    void showParticle(Particle *particle);
+    void setParticle(Particle *particle);
+    void updateLabels();
 
 protected:
-    void updateLabel(const std::string& name, const std::string& text);
+    void updateLabel(const QString &name, const std::string& text);
 
 
 };

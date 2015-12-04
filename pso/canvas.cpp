@@ -1,6 +1,6 @@
 #include "canvas.h"
 #include "optimization.h"
-#include "debug.h"
+#include "lib.h"
 
 #include <QtGui>
 
@@ -73,29 +73,9 @@ void Canvas::updateFunction() {
     }
 }
 
-void Canvas::paintEvent(QPaintEvent *) {
-
-    // get painter
-    QPainter painter(this);
-    painter.setRenderHints(QPainter::Antialiasing, true);
-
-    // background
-    painter.fillRect(0, 0, width(), height(), Qt::white);
-
-    // axis
-    drawAxis(painter);
-
-    // function
-    drawFunction(painter);
-
-    // particles
-    Particles* particles = driver->getParticles();
-    drawParticles(painter, particles);
-
-    if (!particles->empty()) {
-        drawBestPosition(painter, driver->getBestPosition());
-        drawSelectedParticle(painter, selectedParticle);
-    }
+void Canvas::resizeEvent(QResizeEvent *){
+    updateCenter();
+    updateFunction();
 }
 
 void Canvas::mousePressEvent(QMouseEvent *event){
@@ -141,14 +121,14 @@ void Canvas::mouseMoveEvent(QMouseEvent *event) {
     double r_pt = particle_diameter/2 * scale / zoom;
 
     // check z axis
-    if (isNearby(position.z(), 0, r_pt)) {
+    if (Lib::isNearby(position.z(), 0, r_pt)) {
 
         // find particle at given x axis
         Particles* particles = driver->getParticles();
         for(Particles::iterator i = particles->begin(); i!= particles->end(); i++) {
 
             Particle* particle = (*i);
-            if(isNearby(particle->position.x(), position.x(), r_pt)) {
+            if(Lib::isNearby(particle->position.x(), position.x(), r_pt)) {
                 currentParticle = particle;
                 break;
             }
@@ -157,10 +137,10 @@ void Canvas::mouseMoveEvent(QMouseEvent *event) {
 
     if (!isSelectedPermanent) {
         selectedParticle = currentParticle;
-        emit changedSelectedParticle(selectedParticle);
+        driver->selectParticle(selectedParticle);
+        update();
     }
 
-    update();
 }
 
 void Canvas::wheelEvent(QWheelEvent *event) {
@@ -176,52 +156,29 @@ void Canvas::wheelEvent(QWheelEvent *event) {
     update();
 }
 
-void Canvas::resizeEvent(QResizeEvent *){
-    updateCenter();
-    updateFunction();
-}
+void Canvas::paintEvent(QPaintEvent *) {
 
-double Canvas::abs(double v) {
-    return (v < 0) ? -v : v;
-}
+    // get painter
+    QPainter painter(this);
+    painter.setRenderHints(QPainter::Antialiasing, true);
 
-bool Canvas::isNearby(double v1, double v2, double r) {
-    return abs(v1 - v2) <= r;
-}
+    // background
+    painter.fillRect(0, 0, width(), height(), Qt::white);
 
+    // axis
+    drawAxis(painter);
 
-Point Canvas::getPt(Point& px) {
-    Point p(px);
-    toPt(p);
-    return p;
-}
+    // function
+    drawFunction(painter);
 
-Point Canvas::getPx(Point& pt) {
-    Point p(pt);
-    toPx(p);
-    return p;
-}
+    // particles
+    Particles* particles = driver->getParticles();
+    drawParticles(painter, particles);
 
-void Canvas::toPt(Point& p) {
-
-    for (int i = 0; i < Point::MAXDIM; i++) {
-        p.coordinate(i) = toPt(p.coordinate(i), i);
+    if (!particles->empty()) {
+        drawBestPosition(painter, driver->getBestPosition());
+        drawSelectedParticle(painter, selectedParticle);
     }
-}
-
-void Canvas::toPx(Point& p) {
-
-    for (int i = 0; i < Point::MAXDIM; i++) {
-        p.coordinate(i) = toPx(p.coordinate(i), i);
-    }
-}
-
-double Canvas::toPt(double px_i, int i) {
-    return (px_i - center.coordinate(i)) * scale * orientation.coordinate(i) / zoom ;
-}
-
-double Canvas::toPx(double pt_i, int i) {
-    return (pt_i / scale * orientation.coordinate(i) * zoom) + center.coordinate(i);
 }
 
 void Canvas::drawPoint(QPainter& painter, Point p, double r) {
@@ -283,7 +240,7 @@ void Canvas::drawBestPosition(QPainter& painter, Point position) {
     toPx(position);
 
     // draw particle
-    drawPoint(painter, position, particle_diameter);
+    drawSquare(painter, position, particle_diameter);
 }
 
 void Canvas::drawSelectedParticle(QPainter&  painter, Particle *selected) {
@@ -352,10 +309,10 @@ void Canvas::drawVectors(QPainter& painter, Particle *selected) {
     for (int i = 0; i < MAX; i++) {
 
         Point position = selected->position;
-        double orientation = (position.x() < vectors[i].x()) ? 1 : -1;
 
-        DEBUG("TEST", vectors[i].str())
-        //DEBUG("DRAWING VECTOR: ", vectors[i].str());
+        //DEBUG("CANVAS: number " <<  i);
+        //DEBUG("CANVAS: position " << position.str());
+        //DEBUG("CANVAS: vector " << vectors[i].str());
 
         // set pen
         pen.setColor(colors[i]);
@@ -365,13 +322,16 @@ void Canvas::drawVectors(QPainter& painter, Particle *selected) {
         // get end point of vector
         vectors[i].plus(position);
 
-        //DEBUG("RECALCULATION: ", vectors[i].str());
+        // get orientation of the vector
+        double orientation = (position.x() < vectors[i].x()) ? 1 : -1;
+
+        //DEBUG("CANVAS: recalculation: " + vectors[i].str());
 
         // conversion
         toPx(position);
         toPx(vectors[i]);
 
-        //DEBUG("CONVERSION: ", vectors[i].str());
+        //DEBUG("CANVAS: conversion " + vectors[i].str());
 
         // move vector in z axis
         position.plus(z);
@@ -393,6 +353,40 @@ void Canvas::drawVectors(QPainter& painter, Particle *selected) {
 
         painter.drawPolygon(arrow, 3);
     }
+}
+
+Point Canvas::getPt(Point& px) {
+    Point p(px);
+    toPt(p);
+    return p;
+}
+
+Point Canvas::getPx(Point& pt) {
+    Point p(pt);
+    toPx(p);
+    return p;
+}
+
+void Canvas::toPt(Point& p) {
+
+    for (int i = 0; i < Point::MAXDIM; i++) {
+        p.coordinate(i) = toPt(p.coordinate(i), i);
+    }
+}
+
+void Canvas::toPx(Point& p) {
+
+    for (int i = 0; i < Point::MAXDIM; i++) {
+        p.coordinate(i) = toPx(p.coordinate(i), i);
+    }
+}
+
+double Canvas::toPt(double px_i, int i) {
+    return (px_i - center.coordinate(i)) * scale * orientation.coordinate(i) / zoom ;
+}
+
+double Canvas::toPx(double pt_i, int i) {
+    return (pt_i / scale * orientation.coordinate(i) * zoom) + center.coordinate(i);
 }
 
 

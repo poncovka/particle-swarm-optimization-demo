@@ -56,7 +56,6 @@ public:
     explicit Canvas(QWidget *parent = 0);
 
 signals:
-    void changedSelectedParticle(Particle *particle);
 
 public slots:
 

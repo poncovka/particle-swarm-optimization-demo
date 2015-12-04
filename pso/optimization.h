@@ -49,9 +49,6 @@ public:
     // best values
     double bestValue;
 
-    // number of dimensions (max 3)
-    int dimensions;
-
     // velicity boundaries
     Point velocity_max;
     Point velocity_min;

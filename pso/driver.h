@@ -21,12 +21,14 @@ public:
     Point getBestPosition();
 
 signals:
-    void updated();
+    void changedParticles();
+    void changedSelected(Particle *particle);
 
 public slots:
     void addParticle(const Point &p);
     void generateParticles();
     void removeParticles();
+    void selectParticle(Particle *particle);
 
     void setDrawing(bool flag);
 

@@ -1,5 +1,6 @@
 #include "optimization.h"
 #include "functions.h"
+#include "lib.h"
 
 #include <iostream>
 #include <stdlib.h>
@@ -7,17 +8,16 @@
 Optimization::Optimization() {
 
     bestValue = 0;
-    //fitness = FitnessFunction::absx;
-    fitness = FitnessFunction::sinx;
+    fitness = FitnessFunction::absx;
+    //fitness = FitnessFunction::sinx;
 
     dt = 1;
     cg = 2.05;
     cp = 2.05;
-    omega = 0.4;
+    omega = 0.7;
 
     maxIteration = 10;
     iteration = 0;
-    dimensions = 1;
 
     double V = 3;
     velocity_min = Point(-V,-V);
@@ -31,7 +31,7 @@ Optimization::~Optimization() {
 void Optimization::addParticle(const Point& position) {
 
     // generate velocity
-    Point velocity = getRandomPoint(velocity_min, velocity_max, 1);
+    Point velocity = Lib::getRandomPoint(velocity_min, velocity_max, 1);
 
     // create particle
     Particle& particle = *(new Particle(position, velocity));
@@ -60,30 +60,29 @@ void Optimization::addParticle(const Point& position) {
 void Optimization::moveParticle(Particle& particle) {
 
     // compute new values
-    Point nextPosition = computeNextPosition(particle);
-    Point nextVelocity = computeNextVelocity(particle);
-
-    // move
-    particle.position = nextPosition;
-    particle.velocity = nextVelocity;
-
-    // calculate fitness
+    particle.position = computeNextPosition(particle);
+    particle.velocity = computeNextVelocity(particle);
     particle.value = computeFitness(particle);
 
     // calculate next position
     particle.nextPosition = computeNextPosition(particle);
-
-
-    // update best solution
-    if(updateLocalBest(particle)) {
-        updateGlobalBest(particle);
-    }
 }
 
 void Optimization::moveParticleSwarm() {
 
+    // update best found solutions
     for(Particles::iterator i = particles.begin(); i != particles.end(); i++) {
         Particle* particle = (*i);
+
+        if(updateLocalBest(*particle)) {
+            updateGlobalBest(*particle);
+        }
+    }
+
+    // move with every particle
+    for(Particles::iterator i = particles.begin(); i != particles.end(); i++) {
+        Particle* particle = (*i);
+
         moveParticle(*particle);
     }
 
@@ -124,8 +123,8 @@ Point Optimization::computeNextPosition(Particle &particle) {
 Point Optimization::computeNextVelocity(Particle &particle) {
 
     // generate random parameters
-    double rp = getRandomNumber(0,1);
-    double rg = getRandomNumber(0,1);
+    double rp = Lib::getRandomNumber(0,1);
+    double rg = Lib::getRandomNumber(0,1);
 
     // get parameters
     double* x             = particle.position.getCoordinates();
@@ -155,23 +154,6 @@ Point Optimization::computeNextVelocity(Particle &particle) {
 
     return point;
 }
-
-double Optimization::getRandomNumber(double min, double max) {
-    return min + ((double)rand()/(double)RAND_MAX) * (max-min);
-}
-
-Point Optimization::getRandomPoint(Point &min, Point &max, int dim) {
-
-    Point point;
-
-    for(int i = 0; i < dim; i++ ) {
-
-        point.coordinate(i) = getRandomNumber(min.coordinate(i),max.coordinate(i));
-    }
-
-    return point;
-}
-
 
 bool Optimization::updateLocalBest(Particle& particle) {
 

@@ -13,10 +13,9 @@ MainWindow::MainWindow(Driver* driver, QWidget *parent)
     connect(ui->actionRandom, SIGNAL(triggered()), driver, SLOT(generateParticles()));
 
     // tab particle
-    connect(ui->widget, SIGNAL(changedSelectedParticle(Particle*)), ui->tab_particle, SLOT(showParticle(Particle*)));
-
-
-    connect(driver, SIGNAL(updated()), ui->widget, SLOT(update()));
+    connect(driver, SIGNAL(changedSelected(Particle*)), ui->tab_particle, SLOT(setParticle(Particle*)));
+    connect(driver, SIGNAL(changedParticles()), ui->tab_particle, SLOT(updateLabels()));
+    connect(driver, SIGNAL(changedParticles()), ui->widget, SLOT(update()));
 }
 
 MainWindow::~MainWindow()

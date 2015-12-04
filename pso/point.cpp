@@ -15,7 +15,7 @@ void Point::set(double x, double y, double z) {
 }
 
 void Point::plus(Point& p) {
-    for (int i=1; i < Point::MAXDIM; i++) {
+    for (int i = 0; i < Point::MAXDIM; i++) {
         coordinates[i] += p.coordinate(i);
     }
 }
@@ -47,7 +47,7 @@ double& Point::z() {
 
 std::string Point::str()
 {
-    std::stringstream stream;
+    std::ostringstream stream;
     stream << "(" << x() << ", "<< y() << ", "<< z() << ")";
     return stream.str();
 }
