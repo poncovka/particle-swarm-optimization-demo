@@ -29,6 +29,7 @@ HEADERS  += mainwindow.h \
     functions.h \
     optimization.h \
     driver.h \
-    tabparticle.h
+    tabparticle.h \
+    debug.h
 
 FORMS    += mainwindow.ui

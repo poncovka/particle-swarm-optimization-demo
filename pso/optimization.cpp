@@ -6,6 +6,10 @@
 
 Optimization::Optimization() {
 
+    bestValue = 0;
+    //fitness = FitnessFunction::absx;
+    fitness = FitnessFunction::sinx;
+
     dt = 1;
     cg = 2.05;
     cp = 2.05;
@@ -13,10 +17,6 @@ Optimization::Optimization() {
 
     maxIteration = 10;
     iteration = 0;
-    bestPosition = Point();
-
-    fitness = FitnessFunction::absx;
-
     dimensions = 1;
 
     double V = 3;
@@ -41,7 +41,7 @@ void Optimization::addParticle(const Point& position) {
     particle.bestPosition = particle.position;
     particle.nextPosition = computeNextPosition(particle);
 
-    // check if this is the first particle
+    // check if firt particle
     bool first = particles.empty();
 
     // add new particle
@@ -49,8 +49,8 @@ void Optimization::addParticle(const Point& position) {
 
     // update best
     if (first) {
-        bestPosition = particle.bestPosition;
-        bestValue = particle.bestValue;
+        bestValue = particle.value;
+        bestPosition = particle.position;
     }
     else {
         updateGlobalBest(particle);
@@ -97,7 +97,6 @@ void Optimization::removeParticles() {
         delete p;
     }
 }
-
 
 double Optimization::computeFitness(Particle &particle) {
     return (!fitness) ? (0.0/0.0) : fitness(particle.position);

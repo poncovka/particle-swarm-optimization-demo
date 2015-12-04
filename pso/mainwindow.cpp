@@ -7,12 +7,15 @@ MainWindow::MainWindow(Driver* driver, QWidget *parent)
     // setup
     ui->setupUi(this);
 
-    // setup signals
+    // actions
     connect(ui->actionStep, SIGNAL(triggered()), driver, SLOT(doStep()));
     connect(ui->actionClear, SIGNAL(triggered()), driver, SLOT(removeParticles()));
     connect(ui->actionRandom, SIGNAL(triggered()), driver, SLOT(generateParticles()));
 
+    // tab particle
     connect(ui->widget, SIGNAL(changedSelectedParticle(Particle*)), ui->tab_particle, SLOT(showParticle(Particle*)));
+
+
     connect(driver, SIGNAL(updated()), ui->widget, SLOT(update()));
 }
 

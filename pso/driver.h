@@ -17,6 +17,7 @@ public:
 
     Function getFitnessFunction();
     Particles* getParticles();
+    Particle* getBestParticle();
     Point getBestPosition();
 
 signals:
