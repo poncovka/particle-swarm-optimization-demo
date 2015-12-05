@@ -3,8 +3,8 @@
 
 #include <string>
 #include <iostream>
+#include <sstream>
 #include "point.h"
-#include "particle.h"
 
 #define DEBUG(str)      std::cerr << "DEBUG " << str << std::endl;
 #define IFDEBUG(x)      x;

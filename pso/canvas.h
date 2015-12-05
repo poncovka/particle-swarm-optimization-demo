@@ -2,17 +2,13 @@
 #define CANVAS_H
 
 #include <QWidget>
-#include <QPolygonF>
-
 #include "driver.h"
-#include "point.h"
 
 class Canvas : public QWidget
 {
     Q_OBJECT    
 
-private:
-    // driver
+protected:
     Driver* driver;
 
 public:
@@ -23,7 +19,6 @@ signals:
 public slots:
 
 protected:
-
     void paintEvent(QPaintEvent *);
     void mousePressEvent(QMouseEvent *);
     void mouseMoveEvent(QMouseEvent *);

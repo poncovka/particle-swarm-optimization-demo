@@ -1,8 +1,7 @@
 #include "point.h"
-#include <iostream>
+#include <sstream>
 #include <stdexcept>
 #include <iomanip>
-
 
 Point::Point(double x, double y)
 {

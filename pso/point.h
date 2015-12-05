@@ -1,9 +1,7 @@
 #ifndef POINT_H
 #define POINT_H
 
-#include <QPoint>
 #include <string>
-#include <sstream>
 
 class Point {
 

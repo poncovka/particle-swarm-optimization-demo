@@ -1,5 +1,5 @@
 #include "lib.h"
-#include <sstream>
+#include <stdlib.h>
 
 namespace Lib {
 

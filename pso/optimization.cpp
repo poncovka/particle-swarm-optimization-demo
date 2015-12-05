@@ -2,9 +2,6 @@
 #include "functions.h"
 #include "lib.h"
 
-#include <iostream>
-#include <stdlib.h>
-
 Optimization::Optimization() {
 
     init();

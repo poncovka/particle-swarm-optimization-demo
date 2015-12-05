@@ -1,12 +1,13 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "lib.h"
 
 MainWindow::MainWindow(Driver* driver, QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     // setup
     ui->setupUi(this);
+    ui->tab_config->updateValues();
+    ui->tab_config->updateLabels();
 
     // actions
     connect(ui->actionInit, SIGNAL(triggered()), driver, SLOT(doInit()));

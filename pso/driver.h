@@ -9,33 +9,15 @@ class Driver : public QObject
 {
     Q_OBJECT
 
-private:
+protected:
     View view;
     Optimization optimization;
 
+private:
     Driver();
 
 public:
     static Driver* getInstance();
-
-    Function getFitnessFunction();
-    Particles* getParticles();
-    Particle* getBestParticle();
-    Point getBestPosition();
-    double getBestValue();
-    int getCurrentIteration();
-    int getParticlesNumber();
-    int getMaxIterations();
-    double getOmega();
-    double getCp();
-    double getCg();
-
-    void resizeView(int w, int h);
-    void clickView(int x, int y);
-    void mouseMoveView(int x, int y);
-    void wheelView(int orientation);
-    void drawView(QPainter& painter);
-
 
 signals:
     void changedParticles();
@@ -44,7 +26,6 @@ signals:
     void changedView();
 
 public slots:
-
     void doInit();
     void addParticle(const Point &p);
     void generateParticles();
@@ -60,6 +41,25 @@ public slots:
     void updateOmega(const QString& text);
     void updateCp(const QString& text);
     void updateCg(const QString& text);
+
+public:
+    void resizeView(int w, int h);
+    void clickView(int x, int y);
+    void mouseMoveView(int x, int y);
+    void wheelView(int orientation);
+    void drawView(QPainter& painter);
+
+    Function getFitnessFunction();
+    Particles* getParticles();
+    Particle* getBestParticle();
+    Point getBestPosition();
+    double getBestValue();
+    int getCurrentIteration();
+    int getParticlesNumber();
+    int getMaxIterations();
+    double getOmega();
+    double getCp();
+    double getCg();
 
 };
 

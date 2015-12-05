@@ -11,6 +11,46 @@ Driver *Driver::getInstance() {
     return &instance;
 }
 
+Function Driver::getFitnessFunction() {
+    return optimization.fitness;
+}
+
+Particles* Driver::getParticles() {
+    return &(optimization.particles);
+}
+
+Point Driver::getBestPosition() {
+    return optimization.bestPosition;
+}
+
+double Driver::getBestValue() {
+    return optimization.bestValue;
+}
+
+int Driver::getCurrentIteration() {
+    return optimization.iteration;
+}
+
+int Driver::getParticlesNumber() {
+    return optimization.particles.size();
+}
+
+int Driver::getMaxIterations() {
+    return optimization.maxIteration;
+}
+
+double Driver::getOmega() {
+    return optimization.omega;
+}
+
+double Driver::getCp() {
+    return optimization.cp;
+}
+
+double Driver::getCg() {
+    return optimization.cg;
+}
+
 void Driver::doInit() {
 
     // remove particles
@@ -133,46 +173,6 @@ void Driver::drawView(QPainter& painter) {
         view.drawBestPosition(painter, getBestPosition());
         view.drawSelectedParticle(painter);
     }
-}
-
-Function Driver::getFitnessFunction() {
-    return optimization.fitness;
-}
-
-Particles* Driver::getParticles() {
-    return &(optimization.particles);
-}
-
-Point Driver::getBestPosition() {
-    return optimization.bestPosition;
-}
-
-double Driver::getBestValue() {
-    return optimization.bestValue;
-}
-
-int Driver::getCurrentIteration() {
-    return optimization.iteration;
-}
-
-int Driver::getParticlesNumber() {
-    return optimization.particles.size();
-}
-
-int Driver::getMaxIterations() {
-    return optimization.maxIteration;
-}
-
-double Driver::getOmega() {
-    return optimization.omega;
-}
-
-double Driver::getCp() {
-    return optimization.cp;
-}
-
-double Driver::getCg() {
-    return optimization.cg;
 }
 
 
