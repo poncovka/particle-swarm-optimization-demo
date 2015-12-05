@@ -21,10 +21,8 @@ void Optimization::init() {
 
     fitness = FitnessFunction::absx;
 
+    maxVelocity = 1;
     maxIteration = 10000;
-
-    velocity_min.set(-1,-1);
-    velocity_max.set(1,1);
 }
 
 void Optimization::restart() {
@@ -37,7 +35,10 @@ void Optimization::restart() {
 void Optimization::addParticle(const Point& position) {
 
     // generate velocity
-    Point velocity = Lib::getRandomPoint(velocity_min, velocity_max, 1);
+    Point min(-maxVelocity);
+    Point max(maxVelocity);
+
+    Point velocity = Lib::getRandomPoint(min, max, 1);
 
     // create particle
     Particle& particle = *(new Particle(position, velocity));

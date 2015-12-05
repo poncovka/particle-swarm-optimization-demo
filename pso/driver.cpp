@@ -19,16 +19,20 @@ Driver *Driver::getInstance() {
     return &instance;
 }
 
-Function Driver::getFitnessFunction() {
-    return optimization.fitness;
+double Driver::getCp() {
+    return optimization.cp;
 }
 
-Particles* Driver::getParticles() {
-    return &(optimization.particles);
+double Driver::getCg() {
+    return optimization.cg;
 }
 
-Point Driver::getBestPosition() {
-    return optimization.bestPosition;
+double Driver::getOmega() {
+    return optimization.omega;
+}
+
+double Driver::getMaxVelocity() {
+    return optimization.maxVelocity;
 }
 
 double Driver::getBestValue() {
@@ -39,24 +43,24 @@ int Driver::getCurrentIteration() {
     return optimization.iteration;
 }
 
-int Driver::getParticlesNumber() {
-    return optimization.particles.size();
-}
-
 int Driver::getMaxIterations() {
     return optimization.maxIteration;
 }
 
-double Driver::getOmega() {
-    return optimization.omega;
+int Driver::getParticlesNumber() {
+    return optimization.particles.size();
 }
 
-double Driver::getCp() {
-    return optimization.cp;
+Particles* Driver::getParticles() {
+    return &(optimization.particles);
 }
 
-double Driver::getCg() {
-    return optimization.cg;
+Point Driver::getBestPosition() {
+    return optimization.bestPosition;
+}
+
+Function Driver::getFitnessFunction() {
+    return optimization.fitness;
 }
 
 void Driver::doRestart() {
@@ -280,52 +284,50 @@ void Driver::drawView(QPainter& painter) {
 }
 
 
-void Driver::updateMaxIterations(const QString& text) {
-
-    bool ok;
-    int x = text.toInt(&ok);
-
-    if (ok) {
-        optimization.maxIteration = x;
-        DEBUG("DRIVER : maxIteration = " << x)
-    }
-
-}
-
-void Driver::updateOmega(const QString& text) {
-
-    bool ok;
-    double x = text.toDouble(&ok);
-
-    if (ok) {
-        optimization.omega = x;
-        DEBUG("DRIVER : omega = " << x)
-    }
-
-}
-
-
 void Driver::updateCp(const QString& text) {
-
     bool ok;
     double x = text.toDouble(&ok);
 
     if (ok) {
         optimization.cp = x;
-        DEBUG("DRIVER : cp = " << x)
     }
-
 }
 
 void Driver::updateCg(const QString& text) {
-
     bool ok;
     double x = text.toDouble(&ok);
 
     if (ok) {
         optimization.cg = x;
-        DEBUG("DRIVER : cg = " << x)
     }
-
 }
+
+void Driver::updateOmega(const QString& text) {
+    bool ok;
+    double x = text.toDouble(&ok);
+
+    if (ok) {
+        optimization.omega = x;
+    }
+}
+
+void Driver::updateMaxVelocity(const QString& text) {
+    bool ok;
+    double x = text.toDouble(&ok);
+
+    if (ok) {
+        optimization.maxVelocity = x;
+    }
+}
+
+void Driver::updateMaxIterations(const QString& text) {
+    bool ok;
+    int x = text.toInt(&ok);
+
+    if (ok) {
+        optimization.maxIteration = x;
+    }
+}
+
+
 

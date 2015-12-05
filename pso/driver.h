@@ -39,10 +39,11 @@ public slots:
     void stopAnimation();
     void computeOptimum();
 
-    void updateMaxIterations(const QString& text);
-    void updateOmega(const QString& text);
     void updateCp(const QString& text);
     void updateCg(const QString& text);
+    void updateOmega(const QString& text);
+    void updateMaxVelocity(const QString& text);
+    void updateMaxIterations(const QString& text);
 
 public:
     void finishStep();
@@ -53,17 +54,18 @@ public:
     void wheelView(int orientation);
     void drawView(QPainter& painter);
 
-    Function getFitnessFunction();
+    double getCp();
+    double getCg();
+    double getOmega();
+    double getMaxVelocity();
+    double getBestValue();
+    int getCurrentIteration();
+    int getMaxIterations();
+    int getParticlesNumber();
     Particles* getParticles();
     Particle* getBestParticle();
     Point getBestPosition();
-    double getBestValue();
-    int getCurrentIteration();
-    int getParticlesNumber();
-    int getMaxIterations();
-    double getOmega();
-    double getCp();
-    double getCg();
+    Function getFitnessFunction();
 
 };
 

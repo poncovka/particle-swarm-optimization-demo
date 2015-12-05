@@ -18,6 +18,9 @@ MainWindow::MainWindow(Driver* driver, QWidget *parent)
     connect(ui->actionFinish, SIGNAL(triggered()), driver, SLOT(computeOptimum()));
     connect(ui->actionRestart, SIGNAL(triggered()), driver, SLOT(doRestart()));
 
+    // buttons
+    connect(ui->button_default, SIGNAL(clicked()), driver, SLOT(setDefault()));
+
     // canvas
     connect(driver, SIGNAL(changedParticles()), ui->widget, SLOT(update()));
 
@@ -29,10 +32,11 @@ MainWindow::MainWindow(Driver* driver, QWidget *parent)
     connect(driver, SIGNAL(changedParticles()), ui->tab_config, SLOT(updateLabels()));
     connect(driver, SIGNAL(changedConfiguration()), ui->tab_config, SLOT(updateValues()));
 
-    connect(ui->lineEdit_maxIterations, SIGNAL(textChanged(QString)), driver, SLOT(updateMaxIterations(QString)));
-    connect(ui->lineEdit_omega, SIGNAL(textChanged(QString)), driver, SLOT(updateOmega(QString)));
     connect(ui->lineEdit_cp, SIGNAL(textChanged(QString)), driver, SLOT(updateCp(QString)));
     connect(ui->lineEdit_cg, SIGNAL(textChanged(QString)), driver, SLOT(updateCg(QString)));
+    connect(ui->lineEdit_omega, SIGNAL(textChanged(QString)), driver, SLOT(updateOmega(QString)));
+    connect(ui->lineEdit_maxVelocity, SIGNAL(textChanged(QString)),driver, SLOT(updateMaxVelocity(QString)));
+    connect(ui->lineEdit_maxIterations, SIGNAL(textChanged(QString)), driver, SLOT(updateMaxIterations(QString)));
 
 }
 

@@ -27,6 +27,9 @@ public:
     // delta time
     double dt;
 
+    // max initial velocity
+    double maxVelocity;
+
     // number of iterations
     int maxIteration;
 
@@ -38,10 +41,6 @@ public:
 
     // best values
     double bestValue;
-
-    // velicity boundaries
-    Point velocity_max;
-    Point velocity_min;
 
 public:
     Optimization();

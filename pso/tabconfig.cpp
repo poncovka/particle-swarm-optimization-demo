@@ -16,8 +16,8 @@ void TabConfig::updateValues() {
     updateValue("lineEdit_cp",              Lib::str(driver->getCp()));
     updateValue("lineEdit_cg",              Lib::str(driver->getCg()));
     updateValue("lineEdit_omega",           Lib::str(driver->getOmega()));
+    updateValue("lineEdit_maxVelocity",     Lib::str(driver->getMaxVelocity()));
     updateValue("lineEdit_maxIterations",   Lib::str(driver->getMaxIterations()));
-
 }
 
 void TabConfig::updateValue(const QString &name, const std::string &text) {
