@@ -4,7 +4,7 @@
 #include <QWidget>
 #include "driver.h"
 
-class TabConfiguration : public QWidget
+class TabConfig : public QWidget
 {
     Q_OBJECT
 
@@ -12,11 +12,13 @@ protected:
     Driver* driver;
 
 public:
-    explicit TabConfiguration(QWidget *parent = 0);
+    explicit TabConfig(QWidget *parent = 0);
 
 signals:
 
 public slots:
+    void updateValues();
+    void updateValue(const QString &name, const std::string &text);
     void updateLabels();
     void updateLabel(const QString &name, const std::string &text);
 

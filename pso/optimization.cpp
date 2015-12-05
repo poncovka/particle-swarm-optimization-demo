@@ -7,24 +7,31 @@
 
 Optimization::Optimization() {
 
+    init();
+}
+
+Optimization::~Optimization() {
+    removeParticles();
+}
+
+void Optimization::init() {
+
     dt = 1;
     cg = 2.05;
     cp = 2.05;
     omega = 0.7;
 
     bestValue = 0;
+    bestPosition.set(0,0,0);
+
     fitness = FitnessFunction::absx;
 
     maxIteration = 10000;
     iteration = 0;
 
-    const double V = 1;
-    velocity_min = Point(-V,-V);
-    velocity_max = Point(V,V);
-}
+    velocity_min.set(-1,-1,0);
+    velocity_max.set(1,1,0);
 
-Optimization::~Optimization() {
-    removeParticles();
 }
 
 void Optimization::addParticle(const Point& position) {

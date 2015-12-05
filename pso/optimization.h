@@ -1,19 +1,9 @@
 #ifndef OPTIMIZATION_H
 #define OPTIMIZATION_H
 
-#include <list>
 #include <string>
 #include "particle.h"
-
-//---------------------------------------------
-
-// type for pointer to fitness function
-typedef double (*Function)(Point& p);
-
-// type for list of particles
-typedef std::list<Particle*> Particles;
-
-//---------------------------------------------
+#include "functions.h"
 
 class Optimization {
 
@@ -57,10 +47,12 @@ public:
     Optimization();
     ~Optimization();
 
+    void init();
+
     void addParticle(const Point &position);
-    void moveParticle(Particle& particle);
     void removeParticles();
 
+    void moveParticle(Particle& particle);
     void moveParticleSwarm();
 
     double computeFitness(Particle &particle);

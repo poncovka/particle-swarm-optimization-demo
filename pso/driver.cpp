@@ -11,22 +11,52 @@ Driver *Driver::getInstance() {
     return &instance;
 }
 
+void Driver::doInit() {
+
+    // remove particles
+    removeParticles();
+
+    // init configuration
+    optimization.init();
+
+    // signals
+    emit changedParticles();
+    emit changedConfiguration();
+}
+
 void Driver::addParticle(const Point& p) {
+
     optimization.addParticle(p);
     emit changedParticles();
+
 }
 
 void Driver::generateParticles() {
-    //TODO
+
+    // generate particles
+    for (int i = 0; i < 10; i++) {
+
+        double x = Lib::getRandomNumber(-10, 10);
+        double y = Lib::getRandomNumber(-10, 10);
+        Point p(x,y);
+
+        optimization.addParticle(p);
+    }
+
+     emit changedParticles();
 }
 
 void Driver::removeParticles() {
-    optimization.removeParticles();
-    emit changedParticles();
-}
 
-void Driver::selectParticle(Particle *particle) {
-    emit changedSelected(particle);
+    // unselect particle
+    view.setSelectedParticle(NULL);
+
+    // remove particles
+    optimization.removeParticles();
+
+    // signal
+    emit changedParticles();
+    emit changedSelected(NULL);
 }
 
 void Driver::doStep() {
@@ -48,6 +78,62 @@ void Driver::setDrawing(bool flag) {
 
 void Driver::computeOptimum() {
     //TODO
+}
+
+void Driver::resizeView(int w, int h) {
+    view.setSize(w, h);
+    emit changedView();
+}
+
+void Driver::clickView(int x, int y) {
+
+    // select particle or create new one
+    if (!view.setSelectedParticle(view.currentParticle)) {
+
+        // get position of future particle
+        Point position(x, view.center.y(), view.center.z());
+        view.toPt(position);
+
+        // create new particle
+        addParticle(position);
+    }
+
+    emit changedView();
+}
+
+void Driver::mouseMoveView(int x, int y) {
+
+    Particles* particles = getParticles();
+    Particle* particle = view.findParticle(particles, x, y);
+
+    if (view.setCurrentParticle(particle)) {
+        emit changedSelected(particle);
+        emit changedView();
+    }
+}
+
+void Driver::wheelView(int orientation) {
+
+    view.setZoom(orientation);
+    emit changedView();
+}
+
+void Driver::drawView(QPainter& painter) {
+
+    // axis
+    view.drawAxis(painter);
+
+    // function
+    view.drawFunction(painter);
+
+    // particles
+    Particles* particles = getParticles();
+    view.drawParticles(painter, particles);
+
+    if (!particles->empty()) {
+        view.drawBestPosition(painter, getBestPosition());
+        view.drawSelectedParticle(painter);
+    }
 }
 
 Function Driver::getFitnessFunction() {

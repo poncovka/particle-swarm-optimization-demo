@@ -105,7 +105,7 @@
       <property name="currentIndex">
        <number>0</number>
       </property>
-      <widget class="TabConfiguration" name="tab_config">
+      <widget class="TabConfig" name="tab_config">
        <attribute name="title">
         <string>Configuration</string>
        </attribute>
@@ -141,6 +141,12 @@
                  </property>
                  <item row="2" column="0">
                   <widget class="QLabel" name="label_13">
+                   <property name="minimumSize">
+                    <size>
+                     <width>80</width>
+                     <height>0</height>
+                    </size>
+                   </property>
                    <property name="text">
                     <string>Current iteration:</string>
                    </property>
@@ -155,6 +161,12 @@
                  </item>
                  <item row="3" column="0">
                   <widget class="QLabel" name="label_5">
+                   <property name="minimumSize">
+                    <size>
+                     <width>80</width>
+                     <height>0</height>
+                    </size>
+                   </property>
                    <property name="text">
                     <string>Max iterations:</string>
                    </property>
@@ -172,6 +184,12 @@
                  </item>
                  <item row="4" column="0">
                   <widget class="QLabel" name="label_14">
+                   <property name="minimumSize">
+                    <size>
+                     <width>80</width>
+                     <height>0</height>
+                    </size>
+                   </property>
                    <property name="text">
                     <string>Delta time:</string>
                    </property>
@@ -198,6 +216,12 @@
                  </property>
                  <item row="6" column="0">
                   <widget class="QLabel" name="label_2">
+                   <property name="minimumSize">
+                    <size>
+                     <width>80</width>
+                     <height>0</height>
+                    </size>
+                   </property>
                    <property name="text">
                     <string>Cognitive factor:</string>
                    </property>
@@ -208,6 +232,12 @@
                  </item>
                  <item row="7" column="0">
                   <widget class="QLabel" name="label_3">
+                   <property name="minimumSize">
+                    <size>
+                     <width>80</width>
+                     <height>0</height>
+                    </size>
+                   </property>
                    <property name="text">
                     <string>Social factor:</string>
                    </property>
@@ -218,6 +248,12 @@
                  </item>
                  <item row="8" column="0">
                   <widget class="QLabel" name="label_4">
+                   <property name="minimumSize">
+                    <size>
+                     <width>80</width>
+                     <height>0</height>
+                    </size>
+                   </property>
                    <property name="text">
                     <string>Inertia factor:</string>
                    </property>
@@ -228,6 +264,12 @@
                  </item>
                  <item row="5" column="0">
                   <widget class="QLabel" name="label_11">
+                   <property name="minimumSize">
+                    <size>
+                     <width>80</width>
+                     <height>0</height>
+                    </size>
+                   </property>
                    <property name="text">
                     <string>Total particles</string>
                    </property>
@@ -291,6 +333,12 @@
                 <layout class="QFormLayout" name="formLayout_8">
                  <item row="0" column="0">
                   <widget class="QLabel" name="label_12">
+                   <property name="minimumSize">
+                    <size>
+                     <width>80</width>
+                     <height>0</height>
+                    </size>
+                   </property>
                    <property name="text">
                     <string>Best fitness:</string>
                    </property>
@@ -305,6 +353,12 @@
                  </item>
                  <item row="1" column="0">
                   <widget class="QLabel" name="label_15">
+                   <property name="minimumSize">
+                    <size>
+                     <width>80</width>
+                     <height>0</height>
+                    </size>
+                   </property>
                    <property name="text">
                     <string>Best solution:</string>
                    </property>
@@ -344,7 +398,7 @@
              <x>0</x>
              <y>0</y>
              <width>326</width>
-             <height>592</height>
+             <height>643</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_6">
@@ -639,7 +693,7 @@
              <x>0</x>
              <y>0</y>
              <width>326</width>
-             <height>592</height>
+             <height>643</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
@@ -667,16 +721,15 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionInit"/>
+   <addaction name="separator"/>
    <addaction name="actionRandom"/>
+   <addaction name="actionClear"/>
    <addaction name="separator"/>
    <addaction name="actionStep"/>
    <addaction name="actionRun"/>
    <addaction name="actionStop"/>
-   <addaction name="separator"/>
    <addaction name="actionFinish"/>
-   <addaction name="separator"/>
-   <addaction name="actionClear"/>
-   <addaction name="separator"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QMenuBar" name="menuBar">
@@ -694,7 +747,7 @@
     <string>Random</string>
    </property>
    <property name="toolTip">
-    <string>Generate particles randomly.</string>
+    <string>Generate 10 random particles.</string>
    </property>
   </action>
   <action name="actionClear">
@@ -748,6 +801,14 @@
     <string>Stop the optimization.</string>
    </property>
   </action>
+  <action name="actionInit">
+   <property name="text">
+    <string>Init</string>
+   </property>
+   <property name="toolTip">
+    <string>Initialize the configuration with default values.</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -764,9 +825,9 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>TabConfiguration</class>
+   <class>TabConfig</class>
    <extends>QWidget</extends>
-   <header location="global">tabconfiguration.h</header>
+   <header>tabconfig.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -2,11 +2,17 @@
 #define PARTICLE_H
 
 #include <string>
-#include <iostream>
-#include <sstream>
+#include <list>
 
 #include "point.h"
 
+// declare class
+class Particle;
+
+// type for list of particles
+typedef std::list<Particle*> Particles;
+
+// define class
 class Particle {
 
 public:
