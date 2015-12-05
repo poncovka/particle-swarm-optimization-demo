@@ -7,19 +7,18 @@
 
 Optimization::Optimization() {
 
-    bestValue = 0;
-    fitness = FitnessFunction::absx;
-    //fitness = FitnessFunction::sinx;
-
     dt = 1;
     cg = 2.05;
     cp = 2.05;
     omega = 0.7;
 
-    maxIteration = 10;
+    bestValue = 0;
+    fitness = FitnessFunction::absx;
+
+    maxIteration = 10000;
     iteration = 0;
 
-    double V = 3;
+    const double V = 1;
     velocity_min = Point(-V,-V);
     velocity_max = Point(V,V);
 }
@@ -85,6 +84,9 @@ void Optimization::moveParticleSwarm() {
 
         moveParticle(*particle);
     }
+
+    // update iteration counter
+    iteration++;
 
 }
 

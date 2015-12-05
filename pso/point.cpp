@@ -1,6 +1,7 @@
 #include "point.h"
 #include <iostream>
 #include <stdexcept>
+#include <iomanip>
 
 
 Point::Point(double x, double y, double z)
@@ -48,6 +49,7 @@ double& Point::z() {
 std::string Point::str()
 {
     std::ostringstream stream;
+    stream << std::setprecision(2);
     stream << "(" << x() << ", "<< y() << ", "<< z() << ")";
     return stream.str();
 }

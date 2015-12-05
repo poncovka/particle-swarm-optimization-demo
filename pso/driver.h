@@ -19,23 +19,36 @@ public:
     Particles* getParticles();
     Particle* getBestParticle();
     Point getBestPosition();
+    double getBestValue();
+    int getCurrentIteration();
+    int getParticlesNumber();
+    int getMaxIterations();
+    double getOmega();
+    double getCp();
+    double getCg();
+
 
 signals:
     void changedParticles();
     void changedSelected(Particle *particle);
 
 public slots:
+
+    void doStep();
+    void runAnimation();
+    void stopAnimation();
+    void setDrawing(bool flag);
+    void computeOptimum();
+
     void addParticle(const Point &p);
     void generateParticles();
     void removeParticles();
     void selectParticle(Particle *particle);
 
-    void setDrawing(bool flag);
-
-    void doStep();
-    void runAnimation();
-    void stopAnimation();
-    void computeOptimum();
+    void updateMaxIterations(const QString& text);
+    void updateOmega(const QString& text);
+    void updateCp(const QString& text);
+    void updateCg(const QString& text);
 
 };
 

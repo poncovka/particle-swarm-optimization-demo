@@ -94,10 +94,13 @@ void Canvas::mousePressEvent(QMouseEvent *event){
             isSelectedPermanent = true;
         }
     }
-    // nothing selected
-    else {
+    // undo select
+    else if (selectedParticle) {
         selectedParticle = NULL;
         isSelectedPermanent = false;
+    }
+    // nothing selected
+    else {
 
         // get position of future particle
         Point position(event->x(), center.y(), center.z());

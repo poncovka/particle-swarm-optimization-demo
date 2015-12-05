@@ -12,10 +12,9 @@ namespace Lib {
 
     double abs(double v);
     bool isNearby(double v1, double v2, double r);
+
     double getRandomNumber(double min, double max);
     Point getRandomPoint(Point &min, Point &max, int dim);
-    template <typename T> std::string str(T item);
-
 
     template <typename T> std::string str(T item) {
         std::ostringstream stream;

@@ -21,7 +21,8 @@ SOURCES += main.cpp\
     optimization.cpp \
     driver.cpp \
     tabparticle.cpp \
-    lib.cpp
+    lib.cpp \
+    tabconfiguration.cpp
 
 HEADERS  += mainwindow.h \
         canvas.h \
@@ -31,6 +32,7 @@ HEADERS  += mainwindow.h \
     optimization.h \
     driver.h \
     tabparticle.h \
-    lib.h
+    lib.h \
+    tabconfiguration.h
 
 FORMS    += mainwindow.ui
