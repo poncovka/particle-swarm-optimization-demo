@@ -22,15 +22,15 @@ void Optimization::init() {
     omega = 0.7;
 
     bestValue = 0;
-    bestPosition.set(0,0,0);
+    bestPosition.set(0,0);
 
     fitness = FitnessFunction::absx;
 
     maxIteration = 10000;
     iteration = 0;
 
-    velocity_min.set(-1,-1,0);
-    velocity_max.set(1,1,0);
+    velocity_min.set(-1,-1);
+    velocity_max.set(1,1);
 
 }
 

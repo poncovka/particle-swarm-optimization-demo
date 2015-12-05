@@ -36,9 +36,8 @@ void Driver::generateParticles() {
     // generate particles
     for (int i = 0; i < 10; i++) {
 
-        double x = Lib::getRandomNumber(-10, 10);
-        double y = Lib::getRandomNumber(-10, 10);
-        Point p(x,y);
+        Point size = view.getPt(view.size);
+        Point p(Lib::getRandomNumber(-size.x(), size.x()), 0);
 
         optimization.addParticle(p);
     }
@@ -91,7 +90,7 @@ void Driver::clickView(int x, int y) {
     if (!view.setSelectedParticle(view.currentParticle)) {
 
         // get position of future particle
-        Point position(x, view.center.y(), view.center.z());
+        Point position(x, view.center.y());
         view.toPt(position);
 
         // create new particle

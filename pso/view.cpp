@@ -10,7 +10,7 @@ View::View() {
     // set parameters
     zoom = 1;
     scale = 1.0/100;
-    orientation.set(1,1,-1);
+    orientation.set(1,-1);
 
     particle_diameter = 15;
 
@@ -80,7 +80,6 @@ void View::setSize(int w, int h) {
 
     center.x() = w/2;
     center.y() = h/2;
-    center.z() = h/2;
 
     calculateFunction();
 }
@@ -137,13 +136,13 @@ bool View::setCurrentParticle(Particle* particle) {
 Particle* View::findParticle(Particles* particles, int x, int y) {
 
     // get position in px
-    Point position(x, center.y(), y);
+    Point position(x, y);
     toPt(position);
 
     double r_pt = particle_diameter/2 * scale / zoom;
 
-    // check z axis
-    if (Lib::isNearby(position.z(), 0, r_pt)) {
+    // check y axis
+    if (Lib::isNearby(position.y(), 0, r_pt)) {
 
         // find particle at given x axis
         for(Particles::iterator i = particles->begin(); i!= particles->end(); i++) {
@@ -178,20 +177,20 @@ void View::calculateFunction() {
         toPt(point);
 
         // calculate result point
-        point.z() = fitness(point);
+        point.y() = fitness(point);
         toPx(point);
 
         // add point to polygon
-        funcPolygon << QPointF(point.x(), point.z());
+        funcPolygon << QPointF(point.x(), point.y());
     }
 }
 
 void View::drawPoint(QPainter& painter, Point p, double r) {
-    painter.drawEllipse(p.x() - r/2, p.z() - r/2, r, r);
+    painter.drawEllipse(p.x() - r/2, p.y() - r/2, r, r);
 }
 
 void View::drawSquare(QPainter& painter, Point p, double r) {
-    QRectF rectangle(p.x() - r/2, p.z() - r/2, r, r);
+    QRectF rectangle(p.x() - r/2, p.y() - r/2, r, r);
     painter.drawRect(rectangle);
 }
 
@@ -202,9 +201,9 @@ void View::drawAxis(QPainter& painter) {
     painter.setPen(pen);
 
     // draw x axis
-    painter.drawLine(0, center.z(), size.x(), center.z());
+    painter.drawLine(0, center.y(), size.x(), center.y());
 
-    // draw z axis
+    // draw y axis
     painter.drawLine(center.x(), 0, center.x(), size.y());
 }
 
@@ -281,7 +280,7 @@ void View::drawSelectedParticle(QPainter&  painter) {
     painter.setPen(color_particle_next);
 
     drawSquare(painter, p2, particle_diameter);
-    painter.drawText(p2.x() - r/2, p2.z() - r/2 + padding, r, r, Qt::AlignCenter, "next");
+    painter.drawText(p2.x() - r/2, p2.y() - r/2 + padding, r, r, Qt::AlignCenter, "next");
 
     // draw best
     Point p3 = getPx(selected->bestPosition);
@@ -289,7 +288,7 @@ void View::drawSelectedParticle(QPainter&  painter) {
     painter.setPen(color_particle_best);
 
     drawSquare(painter, p3, particle_diameter);
-    painter.drawText(p3.x() - r/2, p3.z() - r/2 + padding, r, r, Qt::AlignCenter, "best");
+    painter.drawText(p3.x() - r/2, p3.y() - r/2 + padding, r, r, Qt::AlignCenter, "best");
 
 }
 
@@ -301,9 +300,9 @@ void View::drawVectors(QPainter& painter) {
     int arrow_w = 15;
     int arrow_h = 8;
 
-    // set z starting point and delta z
-    Point z(0, 0, -100);
-    Point dz(0, 0, -50);
+    // set y starting point and delta y
+    Point y(0, -100);
+    Point dy(0, -50);
 
     // set vectors
     const int MAX = 4;
@@ -342,22 +341,22 @@ void View::drawVectors(QPainter& painter) {
 
         //DEBUG("CANVAS: conversion " + vectors[i].str());
 
-        // move vector in z axis
-        position.plus(z);
-        vectors[i].plus(z);
-        z.plus(dz);
+        // move vector in y axis
+        position.plus(y);
+        vectors[i].plus(y);
+        y.plus(dy);
 
         // draw text
-        painter.drawText(position.x() + 5, position.z() - 10, texts[i]);
+        painter.drawText(position.x() + 5, position.y() - 10, texts[i]);
 
         // draw line
-        painter.drawLine(position.x(), position.z(), vectors[i].x(), vectors[i].z());
+        painter.drawLine(position.x(), position.y(), vectors[i].x(), vectors[i].y());
 
         // draw arrow
         QPoint arrow [3] = {
-            QPoint(vectors[i].x(),                            vectors[i].z()),
-            QPoint(vectors[i].x() - arrow_w * orientation,    vectors[i].z() - arrow_h/2),
-            QPoint(vectors[i].x() - arrow_w * orientation,    vectors[i].z() + arrow_h/2)
+            QPoint(vectors[i].x(),                            vectors[i].y()),
+            QPoint(vectors[i].x() - arrow_w * orientation,    vectors[i].y() - arrow_h/2),
+            QPoint(vectors[i].x() - arrow_w * orientation,    vectors[i].y() + arrow_h/2)
         };
 
         painter.drawPolygon(arrow, 3);

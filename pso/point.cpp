@@ -4,15 +4,14 @@
 #include <iomanip>
 
 
-Point::Point(double x, double y, double z)
+Point::Point(double x, double y)
 {
-    set(x,y,z);
+    set(x,y);
 }
 
-void Point::set(double x, double y, double z) {
+void Point::set(double x, double y) {
     coordinates[0] = x;
     coordinates[1] = y;
-    coordinates[2] = z;
 }
 
 void Point::plus(Point& p) {
@@ -42,14 +41,10 @@ double& Point::y() {
     return coordinates[1];
 }
 
-double& Point::z() {
-    return coordinates[2];
-}
-
 std::string Point::str()
 {
     std::ostringstream stream;
     stream << std::setprecision(2);
-    stream << "(" << x() << ", "<< y() << ", "<< z() << ")";
+    stream << "(" << x() << ", "<< y() << ")";
     return stream.str();
 }
