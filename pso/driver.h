@@ -14,6 +14,7 @@ protected:
     Optimization optimization;
 
 private:
+    double time;
     Driver();
 
 public:
@@ -26,15 +27,16 @@ signals:
     void changedView();
 
 public slots:
-    void doInit();
+    void doRestart();
+    void setDefault();
     void addParticle(const Point &p);
     void generateParticles();
     void removeParticles();
 
     void doStep();
+    void animateStep();
     void runAnimation();
     void stopAnimation();
-    void setDrawing(bool flag);
     void computeOptimum();
 
     void updateMaxIterations(const QString& text);
@@ -43,6 +45,8 @@ public slots:
     void updateCg(const QString& text);
 
 public:
+    void finishStep();
+
     void resizeView(int w, int h);
     void clickView(int x, int y);
     void mouseMoveView(int x, int y);

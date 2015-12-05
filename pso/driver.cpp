@@ -4,7 +4,15 @@
 
 #include <QLocale>
 
-Driver::Driver() {}
+Driver::Driver() {
+
+    // init timer
+    view.timer = new QTimer(this);
+
+    // call do step
+    connect(view.timer, SIGNAL(timeout()), this, SLOT(animateStep()));
+
+}
 
 Driver *Driver::getInstance() {
     static Driver instance;
@@ -51,16 +59,24 @@ double Driver::getCg() {
     return optimization.cg;
 }
 
-void Driver::doInit() {
+void Driver::doRestart() {
+    // stop for sure
+    stopAnimation();
 
-    // remove particles
-    removeParticles();
+    // restart optimization
+    optimization.restart();
+
+    // signals
+    emit changedParticles();
+    emit changedConfiguration();
+}
+
+void Driver::setDefault() {
 
     // init configuration
     optimization.init();
 
     // signals
-    emit changedParticles();
     emit changedConfiguration();
 }
 
@@ -86,6 +102,8 @@ void Driver::generateParticles() {
 }
 
 void Driver::removeParticles() {
+    // stop for sure
+    stopAnimation();
 
     // unselect particle
     view.setSelectedParticle(NULL);
@@ -98,25 +116,111 @@ void Driver::removeParticles() {
     emit changedSelected(NULL);
 }
 
-void Driver::doStep() {
+void Driver::doStep() {    
+    // stop for sure
+    stopAnimation();
+
+    // move particles
     optimization.moveParticleSwarm();
+
+    // signal
     emit changedParticles();
+
+    // stop timer
+    if (optimization.iteration >= optimization.maxIteration) {
+        view.timer->stop();
+    }
 }
 
 void Driver::runAnimation() {
-    //TODO
+
+    // set time
+    time = 0;
+
+    // start timer
+    view.timer->start(100);
 }
 
 void Driver::stopAnimation() {
-    //TODO
+
+    // stop timer
+    view.timer->stop();
+
+    // finish step
+    finishStep();
 }
 
-void Driver::setDrawing(bool flag) {
-    //TODO
+void Driver::animateStep() {
+
+    // set delta time
+    double dt = 0.1;
+    time += dt;
+
+    // animate step
+    if (time <= optimization.dt) {
+
+        // get particles
+        Particles* particles = &optimization.particles;
+
+        // move particles
+        for (Particles::iterator i = particles->begin(); i != particles->end(); i++) {
+            Particle *particle = (*i);
+            particle->position = optimization.computeNextPosition(*particle, dt);
+        }
+
+        // signal
+        emit changedParticles();
+     }
+    // finish step
+    else {
+        finishStep();
+    }
+
+}
+
+void Driver::finishStep() {
+
+    if (time > 0) {
+
+        // get particles
+        Particles* particles = &optimization.particles;
+
+        // calculate new values
+        for (Particles::iterator i = particles->begin(); i != particles->end(); i++) {
+
+            Particle *particle = (*i);
+            particle->position = particle->nextPosition;
+
+            particle->velocity = optimization.computeNextVelocity(*particle);
+            particle->value = optimization.computeFitness(*particle);
+            particle->nextPosition = optimization.computeNextPosition(*particle, optimization.dt);
+
+            if (optimization.updateLocalBest(*particle)) {
+                optimization.updateGlobalBest(*particle);
+            }
+        }
+
+        // add iteration
+        optimization.iteration++;
+
+        // reset time
+        time = 0;
+
+        // signal
+        emit changedParticles();
+        emit changedView();
+    }
 }
 
 void Driver::computeOptimum() {
-    //TODO
+    // stop for sure
+    stopAnimation();
+
+    for (int i = optimization.iteration; i < optimization.maxIteration; i++) {
+        optimization.moveParticleSwarm();
+    }
+
+    emit changedParticles();
 }
 
 void Driver::resizeView(int w, int h) {
@@ -124,7 +228,7 @@ void Driver::resizeView(int w, int h) {
     emit changedView();
 }
 
-void Driver::clickView(int x, int y) {
+void Driver::clickView(int x, int) {
 
     // select particle or create new one
     if (!view.setSelectedParticle(view.currentParticle)) {

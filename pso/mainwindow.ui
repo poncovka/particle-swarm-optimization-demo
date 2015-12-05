@@ -103,7 +103,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="TabConfig" name="tab_config">
        <attribute name="title">
@@ -181,22 +181,6 @@
                     <string/>
                    </property>
                   </widget>
-                 </item>
-                 <item row="4" column="0">
-                  <widget class="QLabel" name="label_14">
-                   <property name="minimumSize">
-                    <size>
-                     <width>80</width>
-                     <height>0</height>
-                    </size>
-                   </property>
-                   <property name="text">
-                    <string>Delta time:</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="4" column="1">
-                  <widget class="QLineEdit" name="lineEdit"/>
                  </item>
                 </layout>
                </item>
@@ -288,6 +272,22 @@
                     <string/>
                    </property>
                   </widget>
+                 </item>
+                 <item row="9" column="0">
+                  <widget class="QLabel" name="label_14">
+                   <property name="minimumSize">
+                    <size>
+                     <width>80</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>Max initial velocity:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="9" column="1">
+                  <widget class="QLineEdit" name="lineEdit"/>
                  </item>
                 </layout>
                </item>
@@ -397,8 +397,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>137</width>
-             <height>348</height>
+             <width>326</width>
+             <height>643</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_6">
@@ -677,39 +677,6 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab_2">
-       <attribute name="title">
-        <string>More</string>
-       </attribute>
-       <layout class="QGridLayout" name="gridLayout">
-        <item row="1" column="0">
-         <widget class="QScrollArea" name="scrollArea">
-          <property name="widgetResizable">
-           <bool>true</bool>
-          </property>
-          <widget class="QWidget" name="scrollAreaWidgetContents">
-           <property name="geometry">
-            <rect>
-             <x>0</x>
-             <y>0</y>
-             <width>98</width>
-             <height>28</height>
-            </rect>
-           </property>
-           <layout class="QVBoxLayout" name="verticalLayout">
-            <item>
-             <layout class="QFormLayout" name="formLayout_3">
-              <property name="fieldGrowthPolicy">
-               <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-              </property>
-             </layout>
-            </item>
-           </layout>
-          </widget>
-         </widget>
-        </item>
-       </layout>
-      </widget>
      </widget>
     </item>
    </layout>
@@ -721,8 +688,6 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionInit"/>
-   <addaction name="separator"/>
    <addaction name="actionRandom"/>
    <addaction name="actionClear"/>
    <addaction name="separator"/>
@@ -730,6 +695,7 @@
    <addaction name="actionRun"/>
    <addaction name="actionStop"/>
    <addaction name="actionFinish"/>
+   <addaction name="actionRestart"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QMenuBar" name="menuBar">
@@ -766,17 +732,6 @@
     <string>Run one iteration.</string>
    </property>
   </action>
-  <action name="actionDraw">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Draw</string>
-   </property>
-   <property name="toolTip">
-    <string>Particles draw their paths.</string>
-   </property>
-  </action>
   <action name="actionFinish">
    <property name="text">
     <string>Finish</string>
@@ -790,7 +745,7 @@
     <string>Run</string>
    </property>
    <property name="toolTip">
-    <string>Run slowly the optimization.</string>
+    <string>Animate the optimization.</string>
    </property>
   </action>
   <action name="actionStop">
@@ -801,12 +756,20 @@
     <string>Stop the optimization.</string>
    </property>
   </action>
-  <action name="actionInit">
+  <action name="actionRestart">
    <property name="text">
-    <string>Init</string>
+    <string>Restart</string>
    </property>
    <property name="toolTip">
-    <string>Clear and initialize.</string>
+    <string>Restart optimization.</string>
+   </property>
+  </action>
+  <action name="actionDefault">
+   <property name="text">
+    <string>Default</string>
+   </property>
+   <property name="toolTip">
+    <string>Set default values.</string>
    </property>
   </action>
  </widget>

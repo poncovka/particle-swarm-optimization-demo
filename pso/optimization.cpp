@@ -5,6 +5,7 @@
 Optimization::Optimization() {
 
     init();
+    restart();
 }
 
 Optimization::~Optimization() {
@@ -18,17 +19,19 @@ void Optimization::init() {
     cp = 2.05;
     omega = 0.7;
 
-    bestValue = 0;
-    bestPosition.set(0,0);
-
     fitness = FitnessFunction::absx;
 
     maxIteration = 10000;
-    iteration = 0;
 
     velocity_min.set(-1,-1);
     velocity_max.set(1,1);
+}
 
+void Optimization::restart() {
+
+    iteration = 0;
+    bestValue = 0;
+    bestPosition.set(0,0);
 }
 
 void Optimization::addParticle(const Point& position) {
@@ -42,7 +45,7 @@ void Optimization::addParticle(const Point& position) {
     particle.value = computeFitness(particle);
     particle.bestValue = particle.value;
     particle.bestPosition = particle.position;
-    particle.nextPosition = computeNextPosition(particle);
+    particle.nextPosition = computeNextPosition(particle, dt);
 
     // check if firt particle
     bool first = particles.empty();
@@ -60,15 +63,13 @@ void Optimization::addParticle(const Point& position) {
     }
 }
 
-void Optimization::moveParticle(Particle& particle) {
+void Optimization::removeParticles() {
 
-    // compute new values
-    particle.position = computeNextPosition(particle);
-    particle.velocity = computeNextVelocity(particle);
-    particle.value = computeFitness(particle);
-
-    // calculate next position
-    particle.nextPosition = computeNextPosition(particle);
+    while(!particles.empty()) {
+        Particle * p = particles.front();
+        particles.pop_front();
+        delete p;
+    }
 }
 
 void Optimization::moveParticleSwarm() {
@@ -94,20 +95,22 @@ void Optimization::moveParticleSwarm() {
 
 }
 
-void Optimization::removeParticles() {
+void Optimization::moveParticle(Particle& particle) {
 
-    while(!particles.empty()) {
-        Particle * p = particles.front();
-        particles.pop_front();
-        delete p;
-    }
+    // compute new values
+    particle.position = computeNextPosition(particle, dt);
+    particle.velocity = computeNextVelocity(particle);
+    particle.value = computeFitness(particle);
+
+    // calculate next position
+    particle.nextPosition = computeNextPosition(particle, dt);
 }
 
 double Optimization::computeFitness(Particle &particle) {
     return (!fitness) ? (0.0/0.0) : fitness(particle.position);
 }
 
-Point Optimization::computeNextPosition(Particle &particle) {
+Point Optimization::computeNextPosition(Particle &particle, double dt) {
 
     // get parameters
     double* x = particle.position.getCoordinates();

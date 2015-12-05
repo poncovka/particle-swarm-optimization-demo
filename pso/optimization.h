@@ -48,6 +48,7 @@ public:
     ~Optimization();
 
     void init();
+    void restart();
 
     void addParticle(const Point &position);
     void removeParticles();
@@ -56,7 +57,7 @@ public:
     void moveParticleSwarm();
 
     double computeFitness(Particle &particle);
-    Point computeNextPosition(Particle &particle);
+    Point computeNextPosition(Particle &particle, double dt);
     Point computeNextVelocity(Particle &particle);
 
     double getRandomNumber(double min, double max);

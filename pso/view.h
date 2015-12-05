@@ -4,6 +4,7 @@
 #include <QColor>
 #include <QPolygonF>
 #include <QPainter>
+#include <QTimer>
 
 #include "point.h"
 #include "particle.h"
@@ -37,6 +38,9 @@ public:
 
     // polygon for fitness function
     QPolygonF funcPolygon;
+
+    // timer
+    QTimer *timer;
 
     // colors
     QColor color_axis;

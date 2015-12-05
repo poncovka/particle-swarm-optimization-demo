@@ -10,10 +10,13 @@ MainWindow::MainWindow(Driver* driver, QWidget *parent)
     ui->tab_config->updateLabels();
 
     // actions
-    connect(ui->actionInit, SIGNAL(triggered()), driver, SLOT(doInit()));
-    connect(ui->actionStep, SIGNAL(triggered()), driver, SLOT(doStep()));
-    connect(ui->actionClear, SIGNAL(triggered()), driver, SLOT(removeParticles()));
     connect(ui->actionRandom, SIGNAL(triggered()), driver, SLOT(generateParticles()));
+    connect(ui->actionClear, SIGNAL(triggered()), driver, SLOT(removeParticles()));
+    connect(ui->actionStep, SIGNAL(triggered()), driver, SLOT(doStep()));
+    connect(ui->actionRun, SIGNAL(triggered()), driver, SLOT(runAnimation()));
+    connect(ui->actionStop, SIGNAL(triggered()), driver, SLOT(stopAnimation()));
+    connect(ui->actionFinish, SIGNAL(triggered()), driver, SLOT(computeOptimum()));
+    connect(ui->actionRestart, SIGNAL(triggered()), driver, SLOT(doRestart()));
 
     // canvas
     connect(driver, SIGNAL(changedParticles()), ui->widget, SLOT(update()));
