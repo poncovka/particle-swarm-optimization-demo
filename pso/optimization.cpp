@@ -30,6 +30,8 @@ void Optimization::restart() {
     iteration = 0;
     bestValue = 0;
     bestPosition.set(0,0);
+
+    removeParticles();
 }
 
 void Optimization::addParticle(const Point& position) {

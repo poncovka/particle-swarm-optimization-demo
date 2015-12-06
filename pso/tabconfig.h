@@ -18,8 +18,11 @@ signals:
 
 public slots:
     void updateValues();
-    void updateValue(const QString &name, const std::string &text);
     void updateLabels();
+
+public:
+    void init();
+    void updateValue(const QString &name, const std::string &text);
     void updateLabel(const QString &name, const std::string &text);
 
 };

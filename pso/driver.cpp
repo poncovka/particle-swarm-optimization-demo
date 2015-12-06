@@ -14,6 +14,10 @@ Driver::Driver() {
 
 }
 
+Driver::~Driver() {
+    delete view.timer;
+}
+
 Driver *Driver::getInstance() {
     static Driver instance;
     return &instance;
@@ -69,6 +73,11 @@ void Driver::doRestart() {
 
     // restart optimization
     optimization.restart();
+
+    if (view.selectedParticle) {
+        view.setSelectedParticle(NULL);
+        emit changedSelected(NULL);
+    }
 
     // signals
     emit changedParticles();
@@ -129,11 +138,6 @@ void Driver::doStep() {
 
     // signal
     emit changedParticles();
-
-    // stop timer
-    if (optimization.iteration >= optimization.maxIteration) {
-        view.timer->stop();
-    }
 }
 
 void Driver::runAnimation() {
@@ -290,6 +294,7 @@ void Driver::updateCp(const QString& text) {
 
     if (ok) {
         optimization.cp = x;
+        emit changedConfiguration();
     }
 }
 
@@ -299,6 +304,7 @@ void Driver::updateCg(const QString& text) {
 
     if (ok) {
         optimization.cg = x;
+        emit changedConfiguration();
     }
 }
 
@@ -308,6 +314,7 @@ void Driver::updateOmega(const QString& text) {
 
     if (ok) {
         optimization.omega = x;
+        emit changedConfiguration();
     }
 }
 
@@ -317,6 +324,7 @@ void Driver::updateMaxVelocity(const QString& text) {
 
     if (ok) {
         optimization.maxVelocity = x;
+        emit changedConfiguration();
     }
 }
 
@@ -326,6 +334,20 @@ void Driver::updateMaxIterations(const QString& text) {
 
     if (ok) {
         optimization.maxIteration = x;
+        emit changedConfiguration();
+    }
+}
+
+void Driver::updateFitnessFunction(const QString& text) {
+
+    Function f = FitnessFunction::get(text.toStdString());
+
+    if (f) {
+        optimization.fitness = f;
+        view.calculateFunction();
+
+        emit changedConfiguration();
+        emit changedView();
     }
 }
 

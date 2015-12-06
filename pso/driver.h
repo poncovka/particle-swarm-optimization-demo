@@ -15,7 +15,9 @@ protected:
 
 private:
     double time;
+
     Driver();
+    ~Driver();
 
 public:
     static Driver* getInstance();
@@ -44,6 +46,7 @@ public slots:
     void updateOmega(const QString& text);
     void updateMaxVelocity(const QString& text);
     void updateMaxIterations(const QString& text);
+    void updateFitnessFunction(const QString& text);
 
 public:
     void finishStep();

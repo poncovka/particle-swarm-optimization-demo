@@ -6,8 +6,7 @@ MainWindow::MainWindow(Driver* driver, QWidget *parent)
 {
     // setup
     ui->setupUi(this);
-    ui->tab_config->updateValues();
-    ui->tab_config->updateLabels();
+    ui->tab_config->init();
 
     // actions
     connect(ui->actionRandom, SIGNAL(triggered()), driver, SLOT(generateParticles()));
@@ -22,6 +21,7 @@ MainWindow::MainWindow(Driver* driver, QWidget *parent)
     connect(ui->button_default, SIGNAL(clicked()), driver, SLOT(setDefault()));
 
     // canvas
+    connect(driver, SIGNAL(changedView()), ui->widget, SLOT(update()));
     connect(driver, SIGNAL(changedParticles()), ui->widget, SLOT(update()));
 
     // tab particle
@@ -37,6 +37,7 @@ MainWindow::MainWindow(Driver* driver, QWidget *parent)
     connect(ui->lineEdit_omega, SIGNAL(textChanged(QString)), driver, SLOT(updateOmega(QString)));
     connect(ui->lineEdit_maxVelocity, SIGNAL(textChanged(QString)),driver, SLOT(updateMaxVelocity(QString)));
     connect(ui->lineEdit_maxIterations, SIGNAL(textChanged(QString)), driver, SLOT(updateMaxIterations(QString)));
+    connect(ui->comboBox_function, SIGNAL(currentIndexChanged(QString)), driver, SLOT(updateFitnessFunction(QString)));
 
 }
 
