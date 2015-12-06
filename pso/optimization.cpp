@@ -19,7 +19,7 @@ void Optimization::init() {
     cp = 2.05;
     omega = 0.7;
 
-    fitness = FitnessFunction::absx;
+    fitness = FitnessFunction::sinx;
 
     maxVelocity = 1;
     maxIteration = 10000;

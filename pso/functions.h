@@ -15,10 +15,14 @@ namespace FitnessFunction {
 
     double sinx(Point &p);
     double absx(Point &p);
+    double weierstrass(Point &p);
+    double easom(Point &p);
+    double ackley(Point& p);
+    double holder(Point& p);
 
-    const int MAX = 2;
-    const std::string names [MAX]  = {"sin(x)", "abs(x)"};
-    const Function functions [MAX] = {sinx, absx};
+    const int MAX = 6;
+    const std::string names [MAX]  = {"sin(x)", "-abs(x)", "Easom function", "Holder table function", "Ackley function", "Weierstrass function"};
+    const Function functions [MAX] = {sinx, absx, easom, holder, ackley, weierstrass};
 
 }
 
