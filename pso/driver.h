@@ -48,6 +48,7 @@ public slots:
     void updateMaxVelocity(const QString& text);
     void updateMaxIterations(const QString& text);
     void updateFitnessFunction(const QString& text);
+    void updateFinished();
 
 public:
     void finishStep();

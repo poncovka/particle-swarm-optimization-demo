@@ -313,7 +313,6 @@ void Driver::updateCp(const QString& text) {
 
     if (ok) {
         optimization.cp = x;
-        emit changedConfiguration();
     }
 }
 
@@ -323,7 +322,6 @@ void Driver::updateCg(const QString& text) {
 
     if (ok) {
         optimization.cg = x;
-        emit changedConfiguration();
     }
 }
 
@@ -333,7 +331,6 @@ void Driver::updateOmega(const QString& text) {
 
     if (ok) {
         optimization.omega = x;
-        emit changedConfiguration();
     }
 }
 
@@ -343,7 +340,6 @@ void Driver::updateMaxVelocity(const QString& text) {
 
     if (ok) {
         optimization.maxVelocity = x;
-        emit changedConfiguration();
     }
 }
 
@@ -353,7 +349,6 @@ void Driver::updateMaxIterations(const QString& text) {
 
     if (ok) {
         optimization.maxIteration = x;
-        emit changedConfiguration();
     }
 }
 
@@ -362,12 +357,23 @@ void Driver::updateFitnessFunction(const QString& text) {
     Function f = FitnessFunction::get(text.toStdString());
 
     if (f) {
+        // set function
         optimization.fitness = f;
+
+        // set view
+        view.zoom = FitnessFunction::getZoom(f);
         view.calculateFunction();
 
+        // signals
         emit changedConfiguration();
         emit changedView();
+
+        sendMessage();
     }
+}
+
+void Driver::updateFinished() {
+    emit changedConfiguration();
 }
 
 

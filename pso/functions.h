@@ -12,6 +12,7 @@ namespace FitnessFunction {
 
     Function get(std::string name);
     int getIndex(Function f);
+    double getZoom(Function f);
 
     double sinx(Point &p);
     double absx(Point &p);
@@ -23,6 +24,7 @@ namespace FitnessFunction {
     const int MAX = 6;
     const std::string names [MAX]  = {"sin(x)", "-abs(x)", "Easom function", "Holder table function", "Ackley function", "Weierstrass function"};
     const Function functions [MAX] = {sinx, absx, easom, holder, ackley, weierstrass};
+    const double zooms [MAX] = {1,1,0.5,0.15,0.2,10};
 
 }
 

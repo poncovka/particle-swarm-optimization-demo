@@ -40,7 +40,11 @@ MainWindow::MainWindow(Driver* driver, QWidget *parent)
     connect(ui->lineEdit_omega, SIGNAL(textChanged(QString)), driver, SLOT(updateOmega(QString)));
     connect(ui->lineEdit_maxVelocity, SIGNAL(textChanged(QString)),driver, SLOT(updateMaxVelocity(QString)));
     connect(ui->lineEdit_maxIterations, SIGNAL(textChanged(QString)), driver, SLOT(updateMaxIterations(QString)));
+
+    connect(ui->lineEdit_cg, SIGNAL(editingFinished()), driver, SLOT(updateFinished()));
+
     connect(ui->comboBox_function, SIGNAL(currentIndexChanged(QString)), driver, SLOT(updateFitnessFunction(QString)));
+
 
 }
 

@@ -28,6 +28,12 @@ namespace FitnessFunction {
         return -1;
     }
 
+    double getZoom(Function f) {
+        int i = getIndex(f);
+        return zooms[i];
+
+    }
+
     double sinx(Point& p) {
         return sin(p.x());
     }
@@ -38,7 +44,8 @@ namespace FitnessFunction {
 
 
     double easom(Point& p) {
-        return -cos(p.x()) * exp(-pow(p.x() - PI,2));
+        double y = PI;
+        return cos(p.x()) * cos(y) * exp(-pow(p.x() - PI,2) + pow(y - PI,2));
     }
 
     double ackley(Point& p) {
@@ -66,7 +73,6 @@ namespace FitnessFunction {
             result += (sin(PI * pow(k,a) * p.x())) / (PI * pow(k,a));
         }
 
-        DEBUG(result);
         return result;
     }
 }
