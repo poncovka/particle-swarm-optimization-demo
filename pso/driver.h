@@ -23,6 +23,7 @@ public:
     static Driver* getInstance();
 
 signals:
+    void changedMessage(const QString &message);
     void changedParticles();
     void changedConfiguration();
     void changedSelected(Particle *particle);
@@ -50,6 +51,7 @@ public slots:
 
 public:
     void finishStep();
+    void sendMessage();
 
     void resizeView(int w, int h);
     void clickView(int x, int y);

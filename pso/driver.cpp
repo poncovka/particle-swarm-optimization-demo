@@ -2,6 +2,8 @@
 #include "functions.h"
 #include "lib.h"
 
+#include <sstream>
+#include <iomanip>
 #include <QLocale>
 
 Driver::Driver() {
@@ -233,7 +235,9 @@ void Driver::computeOptimum() {
 
 void Driver::resizeView(int w, int h) {
     view.setSize(w, h);
+
     emit changedView();
+    sendMessage();
 }
 
 void Driver::clickView(int x, int) {
@@ -254,6 +258,8 @@ void Driver::clickView(int x, int) {
 
 void Driver::mouseMoveView(int x, int y) {
 
+    view.setPosition(x, y);
+
     Particles* particles = getParticles();
     Particle* particle = view.findParticle(particles, x, y);
 
@@ -261,12 +267,16 @@ void Driver::mouseMoveView(int x, int y) {
         emit changedSelected(particle);
         emit changedView();
     }
+
+    sendMessage();
 }
 
 void Driver::wheelView(int orientation) {
 
     view.setZoom(orientation);
     emit changedView();
+
+    sendMessage();
 }
 
 void Driver::drawView(QPainter& painter) {
@@ -287,6 +297,15 @@ void Driver::drawView(QPainter& painter) {
     }
 }
 
+void Driver::sendMessage() {
+
+    std::ostringstream stream;
+    stream << "Zoom:  "    << view.zoom * 100 << "%"
+           << "      "
+           << "Position: " << view.position.str();
+
+    emit changedMessage(stream.str().c_str());
+}
 
 void Driver::updateCp(const QString& text) {
     bool ok;

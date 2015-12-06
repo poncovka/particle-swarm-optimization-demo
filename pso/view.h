@@ -25,6 +25,9 @@ public:
     // center point
     Point center;
 
+    // position
+    Point position;
+
     // orientation of axis
     Point orientation;
 
@@ -69,6 +72,7 @@ public:
 
     void setSize(int w, int h);
     void setZoom(int orientation);
+    void setPosition(int x, int y);
     bool setSelectedParticle(Particle *particle);
     bool setCurrentParticle(Particle* particle);
     Particle* findParticle(Particles* particles, int x, int y);

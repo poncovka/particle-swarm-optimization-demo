@@ -24,6 +24,9 @@ MainWindow::MainWindow(Driver* driver, QWidget *parent)
     connect(driver, SIGNAL(changedView()), ui->widget, SLOT(update()));
     connect(driver, SIGNAL(changedParticles()), ui->widget, SLOT(update()));
 
+    // status bar
+    connect(driver, SIGNAL(changedMessage(QString)), ui->statusBar, SLOT(showMessage(QString)));
+
     // tab particle
     connect(driver, SIGNAL(changedSelected(Particle*)), ui->tab_particle, SLOT(setParticle(Particle*)));
     connect(driver, SIGNAL(changedParticles()), ui->tab_particle, SLOT(updateLabels()));

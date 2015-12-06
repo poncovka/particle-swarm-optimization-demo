@@ -96,6 +96,13 @@ void View::setZoom(int orientation) {
     calculateFunction();
 }
 
+void View::setPosition(int x, int y) {
+
+    position.set(x,y);
+    toPt(position);
+
+}
+
 bool View::setSelectedParticle(Particle *particle) {
 
     if (particle) {
@@ -205,6 +212,24 @@ void View::drawAxis(QPainter& painter) {
 
     // draw y axis
     painter.drawLine(center.x(), 0, center.x(), size.y());
+
+    /*
+    // draw rules
+    painter.setPen(Qt::black);
+
+    int d = 5;
+    double unit_pt = Lib::getUnit(size.x() * scale / zoom / 3);
+    double unit_px = unit_pt / scale * zoom ;
+
+    Point p(center.x(), center.y());
+    Point p_pt = getPt(p);
+
+    for (int x = 0; x <= size.x(); x++) {
+        painter.drawLine(p.x(), p.y() + d, p.x(), p.y() - d);
+        p.x() += unit_px;
+        p_pt.x() += unit_pt;
+    }
+    */
 }
 
 void View::drawFunction(QPainter& painter) {

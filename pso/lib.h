@@ -17,6 +17,8 @@ namespace Lib {
     double getRandomNumber(double min, double max);
     Point getRandomPoint(Point &min, Point &max, int dim);
 
+    double getUnit(double value);
+
     template <typename T> std::string str(T item) {
         std::ostringstream stream;
         stream << item;
